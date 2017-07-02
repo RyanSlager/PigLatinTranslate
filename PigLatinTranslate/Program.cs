@@ -14,7 +14,6 @@ namespace PigLatinTranslate
             {
                 cont = DrawMenu(name);
             }
-            
         }
 
         public static string GetName()
@@ -67,10 +66,10 @@ namespace PigLatinTranslate
             Console.WriteLine("Please enter an English sentence that will be translated into pig latin.\n");
             string s = Console.ReadLine();
 
-            char[] format = new char[] { ' ', ',', ':', ';' };
+            char[] punctuation = new char[] { ' ', ',', ':', ';', '?', '\'', '.', '/', '(', ')'};
             char[] vowels = new char[] { 'a', 'e', 'i', 'o', 'u' };
 
-            string[] words = s.Split(format);
+            string[] words = s.Split(' ');
             List<string> newWordsTemp = new List<string>();
 
             foreach(string word in words)
@@ -81,9 +80,20 @@ namespace PigLatinTranslate
                 
                 if(hasVowel != -1 && hasVowel != 0)
                 {
+                    int indexPunc = word.IndexOfAny(punctuation);
                     string sub = word.Substring(0, hasVowel);
                     string tempWord = word.Remove(0, hasVowel);
-                    newWord = String.Concat(tempWord, sub, "ay");
+                    int subChar1 = (int)sub[0];
+
+                    if(subChar1 >= 65 && subChar1 <= 90)
+                    {
+                        newWord = HandleCaps(word);
+                    }
+                    else
+                    {
+                        newWord = String.Concat(tempWord, sub, "ay");
+                    }
+                 
                 }
                 else if(hasVowel == 0 && wordLeng != 1)
                 {
@@ -128,12 +138,43 @@ namespace PigLatinTranslate
             }
         }
 
+        public static string HandleCaps(string word)
+        {
+            char[] punctuation = new char[] { ' ', ',', ':', ';', '?', '\'', '.', '/', '(', ')' };
+            char[] vowels = new char[] { 'a', 'e', 'i', 'o', 'u' };
+            int hasVowel = word.IndexOfAny(vowels);
+            int wordLeng = word.Length;
+            string newWord;
+            int indexPunc = word.IndexOfAny(punctuation);
+            string sub = word.Substring(0, hasVowel);
+            string tempWord = word.Remove(0, hasVowel);
+            int subChar1 = (int)sub[0];
+
+            if (subChar1 >= 65 && subChar1 <= 90)
+            {
+                Console.WriteLine("UPPER");
+                char tempFirst = char.ToUpper(tempWord[0]);
+                tempWord = tempWord.Remove(0, 1);
+                tempWord = String.Concat(tempFirst, tempWord);
+
+                char subFirst = char.ToLower(sub[0]);
+                sub = sub.Remove(0, 1);
+                sub = String.Concat(subFirst, sub);
+                Console.WriteLine(sub);
+            }
+
+            newWord = String.Concat(tempWord, sub, "ay");
+
+            return newWord;
+        }
+
         public static string Encrypt(string sentence = "")
         {
             if(sentence == "")
             {
                 Console.WriteLine("Please enter a string you wish to encrypt");
                 sentence = Console.ReadLine();
+                Console.WriteLine();
             }
 
             char[] chars = sentence.ToCharArray();
@@ -141,6 +182,8 @@ namespace PigLatinTranslate
             Console.WriteLine("Enter how many places you'd like to rotate the sentence by:\n");
             string tempKey = Console.ReadLine();
             int key;
+
+            Console.WriteLine();
 
             while (!Int32.TryParse(tempKey, out key))
             {
