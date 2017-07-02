@@ -5,35 +5,33 @@ namespace PigLatinTranslate
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            int uChoice = GetInput("Ryan");
-            string translate = "";
-            string encrypt = "";
+            string name = GetName();
+            bool cont = DrawMenu(name);
 
-            if(uChoice == 1)
+            while(!cont == false)
             {
-                translate = PigLatinize();
+                cont = DrawMenu(name);
             }
-            else if(uChoice == 2)
-            {
-                encrypt = Encrypt();
-            }
-            else if(uChoice == 4)
-            {
-                return;
-            }
-
             
         }
 
-        public static int GetInput(string name)
+        public static string GetName()
+        {
+            Console.WriteLine("Hello, welcome to our English to Pig Latin Translater and String Encryption Application!\n" +
+                "Please enter your name: \n");
+            return Console.ReadLine();
+        }
+        public static bool DrawMenu(string name)
         {
 
             Console.WriteLine($"{name}, please choose an option:\n1) Translate English to Pig Latin\n2) Encrypt String\n3) Decrypt String" +
                 $"\n4) Quit");
             string choice = Console.ReadLine();
             int choiceInt;
+
+            bool cont = true;
 
             while(!Int32.TryParse(choice, out choiceInt) && choiceInt != 1 && choiceInt != 2 && choiceInt != 3)
             {
@@ -43,7 +41,24 @@ namespace PigLatinTranslate
                 choice = Console.ReadLine();
             }
 
-            return choiceInt;
+            if (choiceInt == 1)
+            {
+                PigLatinize();
+            }
+            else if (choiceInt == 2)
+            {
+                Encrypt();
+            }
+            else if (choiceInt == 3)
+            {
+                Decrypt();
+            }
+            else if (choiceInt == 4)
+            {
+                cont = false;
+            }
+
+            return cont;
 
         }
 
@@ -96,11 +111,11 @@ namespace PigLatinTranslate
             if (cont == "y" || cont == "Y")
             {
                 Console.WriteLine("Your Pig Latin string is:\n");
-                Console.WriteLine(translatedSentence);
+                Console.WriteLine(translatedSentence + "\n");
 
                 string encrypted = Encrypt(translatedSentence);
                 Console.WriteLine("Your Encrypted Pig Latin String is:\n");
-                Console.WriteLine(encrypted);
+                Console.WriteLine(encrypted + "\n");
 
                 return encrypted;
 
@@ -108,7 +123,7 @@ namespace PigLatinTranslate
             else
             {
                 Console.WriteLine("Your Pig Latin string is:\n");
-                Console.WriteLine(translatedSentence);
+                Console.WriteLine(translatedSentence + "\n");
                 return translatedSentence;
             }
         }
@@ -167,14 +182,69 @@ namespace PigLatinTranslate
             string encryptedString = string.Join("", spunChar);
 
             Console.WriteLine("Your encrypted string is:\n");
-            Console.WriteLine(encryptedString);
+            Console.WriteLine(encryptedString + "\n");
 
             return encryptedString;
         }
 
-        //public static bool Resume(bool cont)
-        //{
-        //    bool c = cont;
-        //}
+        public static string Decrypt(string sentence = "")
+        {
+            if (sentence == "")
+            {
+                Console.WriteLine("Please enter a string you wish to decrypt");
+                sentence = Console.ReadLine();
+            }
+
+            char[] chars = sentence.ToCharArray();
+            List<char> spunChar = new List<char>();
+            Console.WriteLine("Enter the key that was used to encrypt your sentence\n");
+            string tempKey = Console.ReadLine();
+            int key;
+
+            while (!Int32.TryParse(tempKey, out key))
+            {
+                Console.WriteLine("Please enter an integer:\n");
+                tempKey = Console.ReadLine();
+            }
+
+            int charLeng = chars.Length;
+
+            for (int i = 0; i < charLeng; i++)
+            {
+                if (Char.IsLetter(chars[i]))
+                {
+                    int ascii = (int)chars[i] - key;
+                    //Console.WriteLine(ascii);
+
+                    if (ascii > 122)
+                    {
+                        ascii -= 26;
+                    }
+                    else if (ascii < 65)
+                    {
+                        ascii += 26;
+                    }
+                    else if (ascii < 97)
+                    {
+                        ascii += 26;
+                    }
+                    else if (ascii == 32)
+                    {
+                        spunChar.Add(' ');
+                    }
+
+                    spunChar.Add((char)ascii);
+                }
+            }
+
+
+            string encryptedString = string.Join("", spunChar);
+
+            Console.WriteLine("Your encrypted string is:\n");
+            Console.WriteLine(encryptedString + "\n");
+
+            return encryptedString;
+        }
+
     }
 }
