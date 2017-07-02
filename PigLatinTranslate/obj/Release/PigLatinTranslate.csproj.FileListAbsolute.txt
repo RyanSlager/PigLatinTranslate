@@ -1,0 +1,5 @@
+C:\Users\slage\Desktop\C# Bootcamp\PigLatinTranslate\PigLatinTranslate\bin\Release\PigLatinTranslate.exe.config
+C:\Users\slage\Desktop\C# Bootcamp\PigLatinTranslate\PigLatinTranslate\bin\Release\PigLatinTranslate.exe
+C:\Users\slage\Desktop\C# Bootcamp\PigLatinTranslate\PigLatinTranslate\bin\Release\PigLatinTranslate.pdb
+C:\Users\slage\Desktop\C# Bootcamp\PigLatinTranslate\PigLatinTranslate\obj\Release\PigLatinTranslate.exe
+C:\Users\slage\Desktop\C# Bootcamp\PigLatinTranslate\PigLatinTranslate\obj\Release\PigLatinTranslate.pdb

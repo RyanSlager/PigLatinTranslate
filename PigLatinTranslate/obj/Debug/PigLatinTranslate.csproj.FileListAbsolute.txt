@@ -1,6 +1,6 @@
-C:\Users\slage\Desktop\C# Bootcamp\PigLatinTranslate\PigLatinTranslate\obj\Debug\PigLatinTranslate.csprojResolveAssemblyReference.cache
 C:\Users\slage\Desktop\C# Bootcamp\PigLatinTranslate\PigLatinTranslate\bin\Debug\PigLatinTranslate.exe.config
 C:\Users\slage\Desktop\C# Bootcamp\PigLatinTranslate\PigLatinTranslate\bin\Debug\PigLatinTranslate.exe
 C:\Users\slage\Desktop\C# Bootcamp\PigLatinTranslate\PigLatinTranslate\bin\Debug\PigLatinTranslate.pdb
 C:\Users\slage\Desktop\C# Bootcamp\PigLatinTranslate\PigLatinTranslate\obj\Debug\PigLatinTranslate.exe
 C:\Users\slage\Desktop\C# Bootcamp\PigLatinTranslate\PigLatinTranslate\obj\Debug\PigLatinTranslate.pdb
+C:\Users\slage\Desktop\C# Bootcamp\PigLatinTranslate\PigLatinTranslate\obj\Debug\PigLatinTranslate.csprojResolveAssemblyReference.cache
