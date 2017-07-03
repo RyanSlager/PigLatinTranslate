@@ -70,41 +70,39 @@ namespace PigLatinTranslate
             char[] vowels = new char[] { 'a', 'e', 'i', 'o', 'u' };
 
             string[] words = s.Split(' ');
-            List<string> newWordsTemp = new List<string>();
+            string[] newWordsTemp = new string[words.Length];
 
-            foreach(string word in words)
+            for(int i = 0; i < words.Length; i++)
             {
-                int hasVowel = word.IndexOfAny(vowels);
-                int wordLeng = word.Length;
-                string newWord;
+                int hasVowel = words[i].IndexOfAny(vowels);
+                int wordLeng = words[i].Length;
                 
                 if(hasVowel != -1 && hasVowel != 0)
                 {
-                    int indexPunc = word.IndexOfAny(punctuation);
-                    string sub = word.Substring(0, hasVowel);
-                    string tempWord = word.Remove(0, hasVowel);
+                    int indexPunc = words[i].IndexOfAny(punctuation);
+                    string sub = words[i].Substring(0, hasVowel);
+                    string tempWord = words[i].Remove(0, hasVowel);
                     int subChar1 = (int)sub[0];
 
                     if(subChar1 >= 65 && subChar1 <= 90)
                     {
-                        newWord = HandleCaps(word);
+                        newWordsTemp[i] = HandleCaps(words[i]);
                     }
-                    else
+                    else if(subChar1 >= 97 && subChar1 <= 122)
                     {
-                        newWord = String.Concat(tempWord, sub, "ay");
+                        newWordsTemp[i] = String.Concat(tempWord, sub, "ay");
                     }
                  
                 }
                 else if(hasVowel == 0 && wordLeng != 1)
                 {
-                    newWord = String.Concat(word, "way");
+                    newWordsTemp[i] = String.Concat(words[i], "way");
                 }
                 else
                 {
-                    newWord = word;
+                    newWordsTemp[i] = words[i];
                 }
 
-                newWordsTemp.Add(newWord);
             }
 
             string translatedSentence = string.Join(" ", newWordsTemp);
@@ -152,7 +150,6 @@ namespace PigLatinTranslate
 
             if (subChar1 >= 65 && subChar1 <= 90)
             {
-                Console.WriteLine("UPPER");
                 char tempFirst = char.ToUpper(tempWord[0]);
                 tempWord = tempWord.Remove(0, 1);
                 tempWord = String.Concat(tempFirst, tempWord);
@@ -160,10 +157,9 @@ namespace PigLatinTranslate
                 char subFirst = char.ToLower(sub[0]);
                 sub = sub.Remove(0, 1);
                 sub = String.Concat(subFirst, sub);
-                Console.WriteLine(sub);
             }
 
-            newWord = String.Concat(tempWord, sub, "ay");
+            newWord = String.Concat(tempWord, sub, "ay"); 
 
             return newWord;
         }
