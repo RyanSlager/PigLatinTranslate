@@ -40,7 +40,7 @@ namespace PigLatinTranslate
             while(!Int32.TryParse(choice, out choiceInt) && choiceInt != 1 && choiceInt != 2 && choiceInt != 3)
             {
                 Console.WriteLine("Sorry, that is not a valid choice.\n");
-                Console.WriteLine($"{name}, please choose an option:\n1) Translate English to Pig Latin\n2) Encrypt String\n3) 3) Decrypt String" +
+                Console.WriteLine($"{name}, please choose an option:\n1) Translate English to Pig Latin\n2) Encrypt String\n3) Decrypt String" +
                     $"\n 4) Quit\n\n");
                 choice = Console.ReadLine();
             }
@@ -106,7 +106,7 @@ namespace PigLatinTranslate
 
                 // if a vowel is not at index 0 and the word is not a number, consonants are stripped from the front, added to the back along
                 // with ay
-                if (hasVowel != 0 && hasNum == -1)
+                if (hasVowel != 0 && hasVowel != -1 && hasNum == -1)
                 {
                     // sub is set to the substring containing all chars before the first vowel
                     string sub = words[i].Substring(0, hasVowel);
@@ -129,10 +129,12 @@ namespace PigLatinTranslate
                  
                 }
 
-                // way is added to the end of words[i] if the first letter of words[i] is a vowel and the length of words[i] is not 1
-                else if(hasVowel == 0 && wordLeng != 1)
+                // way is added to the end of words[i] if the first letter of words[i] is a vowel and the length of words[i] is not 1 or if the
+                // vowel in the word is y
+                else if(hasVowel == 0 || hasVowel == -1 && wordLeng != 1)
                 {
                     newWordsTemp[i] = String.Concat(words[i], "way");
+                    Console.WriteLine(newWordsTemp[i]);
                 }
 
                 //if word[i] is a single char, it is left alone
@@ -236,82 +238,65 @@ namespace PigLatinTranslate
         // Encrypt is a Caesar cypher, that is fed a sentence or prompts the user for a sentence if none is passed in
         public static string Encrypt(string sentence = "")
         {
-            //if no sentence is passed in, the user is prompted for a sentence
-            if(sentence == "")
+            // if no sentence is passed into Encrypt, the user is prompted for one
+            if (sentence == "")
             {
-                Console.WriteLine("Please enter a string you wish to encrypt\n");
+                Console.WriteLine("Please enter a string you wish to encrypt");
                 sentence = Console.ReadLine();
-                Console.WriteLine();
             }
 
-            // two char arrays are created of equal length, one from teh input, and one that is empty
+            // two arrays are made, one from the input and an empty one set to length of the other
             char[] chars = sentence.ToCharArray();
             char[] spunChar = new char[chars.Length];
 
-            // a key is provided by the user, input is validated
-            Console.WriteLine("Enter how many places you'd like to rotate the sentence by:\n");
-            string strKey = Console.ReadLine();
+            // user is prompted for a key between 1 and 25, and the input is validated
+            Console.WriteLine("Enter a key between 1 and 25. This key is how many places you'd like to shift the sentence by.\n");
+            string tempKey = Console.ReadLine();
             int key;
 
-            Console.WriteLine();
-
-            while (!Int32.TryParse(strKey, out key))
+            while (!Int32.TryParse(tempKey, out key) || key > 25)
             {
-                Console.WriteLine("Please enter an integer:\n");
-                strKey = Console.ReadLine();
+                Console.WriteLine("Please enter an integer between 1 and 25:\n");
+                tempKey = Console.ReadLine();
             }
 
-            // charLength is set, to be used as the upper bound of the for loop
+            // charLeng is set to the length of the chars array, for use as the upper bounds of the for loop
             int charLeng = chars.Length;
 
-
-            // chars are rotated one by one as the array is iterated over
+            // for loop iterates through chars and shifts each char accordingly
             for (int i = 0; i < charLeng; i++)
             {
-                // tempKey is set, and charKey is set to int of chars[i](the ascii value)
-                int tempKey = key;
-                int charKey = (int)chars[i];
-
-                // if char[i] is a letter, the key is added to the ascii value, and set to the int ascii
                 if (Char.IsLetter(chars[i]))
                 {
+                    // ascii is set to the ascii code of the char + the key
                     int ascii = (int)chars[i] + key;
 
-                    // if chars[i] is a space, it is recorded as a space in spunChar[i]
-                    if ((char)charKey == ' ')
+                    // conditions are set to help rotate from z-a and from Z-A, as well as handle spaces
+                    if (ascii > 122)
                     {
-                        spunChar[i] = ' ';
+                        ascii -= 26;
+                    }
+                    else if (ascii < 65)
+                    {
+                        ascii += 26;
+                    }
+                    else if (ascii > 90 && ascii < 97)
+                    {
+                        ascii -= 26;
+                    }
+                    else if (chars[i] == ' ')
+                    {
+                        ascii = 32;
                     }
 
-                    // while ascii goes past 'z', tempKey is decremented by 26 and ascii is iset to charKey + tempKey
-                    // making sure that the final result is within a-z
-                    else if (ascii > 122)
-                    {
-                        while (ascii > 122)
-                        {
-                            tempKey -= 26;
-                            ascii = charKey + tempKey;
-                        }
-                    }
-
-                    // same thing as above, but for upper case chars
-                    else if (!(ascii < 90) && (ascii > 97))
-                    {
-                        while(ascii > 90)
-                        {
-                            tempKey -= 26;
-                            ascii = charKey + tempKey;
-                        }
-                    }
-
-                    // the rotated char is added to the spunChars[] array
                     spunChar[i] = (char)ascii;
                 }
             }
-            
-            // spunChar is turned into a string, printed and returned
+
+            // encryptedString is created from the spunChar array
             string encryptedString = new string(spunChar);
 
+            // the string is printed and returned
             Console.WriteLine("Your encrypted string is:\n");
             Console.WriteLine(encryptedString + "\n");
 
@@ -337,9 +322,9 @@ namespace PigLatinTranslate
 
             Console.WriteLine();
 
-            while (!Int32.TryParse(strKey, out key))
+            while (!Int32.TryParse(strKey, out key) || key > 25)
             {
-                Console.WriteLine("Please enter an integer:\n");
+                Console.WriteLine("Please enter an integer between 1 and 25:\n");
                 strKey = Console.ReadLine();
             }
 
