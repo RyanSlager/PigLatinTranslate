@@ -308,63 +308,53 @@ namespace PigLatinTranslate
         {
             if (sentence == "")
             {
-                Console.WriteLine("Please enter a string you wish to decrypt\n");
+                Console.WriteLine("Please enter a string you wish to decrypt");
                 sentence = Console.ReadLine();
-                Console.WriteLine();
             }
 
             char[] chars = sentence.ToCharArray();
-            char[] spunChar = new char[chars.Length];
-
-            Console.WriteLine("Enter the key that was used to encrypt your string:\n");
-            string strKey = Console.ReadLine();
+            List<char> spunChar = new List<char>();
+            Console.WriteLine("Enter the key that was used to encrypt your sentence\n");
+            string tempKey = Console.ReadLine();
             int key;
 
-            Console.WriteLine();
-
-            while (!Int32.TryParse(strKey, out key) || key > 25)
+            while (!Int32.TryParse(tempKey, out key))
             {
-                Console.WriteLine("Please enter an integer between 1 and 25:\n");
-                strKey = Console.ReadLine();
+                Console.WriteLine("Please enter an integer:\n");
+                tempKey = Console.ReadLine();
             }
 
             int charLeng = chars.Length;
 
             for (int i = 0; i < charLeng; i++)
             {
-                int tempKey = key;
-                int charKey = (int)chars[i];
-
                 if (Char.IsLetter(chars[i]))
                 {
                     int ascii = (int)chars[i] - key;
 
-                    if ((char)charKey == ' ')
+                    if (ascii > 122)
                     {
-                        spunChar[i] = ' ';
+                        ascii -= 26;
                     }
-                    else if (charKey > 97 && charKey < 122)
+                    else if (ascii < 65)
                     {
-                        while (ascii < 97)
-                        {
-                            tempKey -= 26;
-                            ascii = charKey - tempKey;
-                        }
+                        ascii += 26;
                     }
-                    else if (charKey > 65 && charKey < 90)
+                    else if (ascii < 97)
                     {
-                        while (ascii < 65)
-                        {
-                            tempKey -= 26;
-                            ascii = charKey - tempKey;
-                        }
+                        ascii += 26;
+                    }
+                    else if (ascii == 32)
+                    {
+                        spunChar.Add(' ');
                     }
 
-                    spunChar[i] = (char)ascii;
+                    spunChar.Add((char)ascii);
                 }
             }
 
-            string encryptedString = new string(spunChar);
+
+            string encryptedString = string.Join("", spunChar);
 
             Console.WriteLine("Your encrypted string is:\n");
             Console.WriteLine(encryptedString + "\n");
