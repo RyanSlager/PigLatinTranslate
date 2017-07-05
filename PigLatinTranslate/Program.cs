@@ -9,8 +9,10 @@ namespace PigLatinTranslate
         {
             // name is set to return value of GetName and is passed to DrawMenu
             string name = GetName();
+
             //DrawMenu prints the menu out, and returns false when the user chooses the quit option
             bool cont = DrawMenu(name);
+
             // menu is drawn until the user enters the quit option
             while(!cont == false)
             {
@@ -78,7 +80,7 @@ namespace PigLatinTranslate
             // arrays of chars are declared to be used in IndexOfAny. 
             char[] punctuation = new char[] { ',', ':', ';', '?', '!', '.' };
             char[] specChar = new char[] { '@', '#', '$', '%', '^', '&', '*', '(', ')', '/', '[', ']' };
-            char[] vowels = new char[] { 'a', 'e', 'i', 'o', 'u' };
+            char[] vowels = new char[] { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
             char[] nums = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
             //input is split() on spaces, giving an array of words. empty array of the same length is initialized
