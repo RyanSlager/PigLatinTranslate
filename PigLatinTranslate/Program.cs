@@ -100,12 +100,6 @@ namespace PigLatinTranslate
                 int hasNum = words[i].IndexOfAny(nums);
                 int wordLeng = words[i].Length;
 
-                // ensures words that are numbers (e.g. 15.99) are not changed
-                if (hasNum != -1)
-                {
-                    newWordsTemp[i] = words[i];
-                }
-
                 // if a vowel is not at index 0 and the word is not a number, consonants are stripped from the front, added to the back along
                 // with ay
                 if (hasVowel != 0 && hasVowel != -1 && hasNum == -1)
@@ -117,7 +111,6 @@ namespace PigLatinTranslate
                     // subChar1 is set to the ascii value for the first char in sub(used for handling capitilization)
                     int subChar1 = (int)sub[0];
 
-
                     // if the first char in sub is caps, words[i] is passed to HandleCaps
                     if(subChar1 >= 65 && subChar1 <= 90)
                     {
@@ -127,8 +120,7 @@ namespace PigLatinTranslate
                     else if(subChar1 >= 97 && subChar1 <= 122)
                     {
                         newWordsTemp[i] = String.Concat(tempWord, sub, "ay");
-                    }
-                 
+                    }                 
                 }
 
                 // way is added to the end of words[i] if the first letter of words[i] is a vowel and the length of words[i] is not 1 or if the
@@ -136,7 +128,6 @@ namespace PigLatinTranslate
                 else if(hasVowel == 0 || hasVowel == -1 && wordLeng != 1)
                 {
                     newWordsTemp[i] = String.Concat(words[i], "way");
-                    Console.WriteLine(newWordsTemp[i]);
                 }
 
                 //if word[i] is a single char, it is left alone
@@ -152,11 +143,10 @@ namespace PigLatinTranslate
                 }
 
                 // if there are special chars in words[i], nothing is changed
-                if (hasSpec != -1)
+                if (hasSpec != -1 || hasNum != -1)
                 {
                     newWordsTemp[i] = words[i];
                 }
-
             }
 
             // newWordsTemp is made into a string
