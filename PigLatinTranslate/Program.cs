@@ -43,7 +43,7 @@ namespace PigLatinTranslate
             {
                 Console.WriteLine("Sorry, that is not a valid choice.\n");
                 Console.WriteLine($"{name}, please choose an option:\n1) Translate English to Pig Latin\n2) Encrypt String\n3) Decrypt String" +
-                    $"\n 4) Quit\n\n");
+                    $"\n4) Quit\n\n");
                 choice = Console.ReadLine();
             }
 
@@ -79,7 +79,7 @@ namespace PigLatinTranslate
 
             // arrays of chars are declared to be used in IndexOfAny. 
             char[] punctuation = new char[] { ',', ':', ';', '?', '!', '.' };
-            char[] specChar = new char[] { '@', '#', '$', '%', '^', '&', '*', '(', ')', '/', '[', ']' };
+            char[] specChar = new char[] { '@', '#', '$', '%', '^', '&', '*', '(', ')', '/', '[', ']'};
             char[] vowels = new char[] { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
             char[] nums = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
@@ -142,7 +142,7 @@ namespace PigLatinTranslate
                     newWordsTemp[i] = HandlePunct(newWordsTemp[i]);
                 }
 
-                // if there are special chars in words[i], nothing is changed
+                // if there are special chars or numbers in words[i], nothing is changed
                 if (hasSpec != -1 || hasNum != -1)
                 {
                     newWordsTemp[i] = words[i];
@@ -305,7 +305,7 @@ namespace PigLatinTranslate
             }
 
             char[] chars = sentence.ToCharArray();
-            List<char> spunChar = new List<char>();
+            char[] spunChar = new char[chars.Length];
             Console.WriteLine("Enter the key that was used to encrypt your sentence\n");
             string tempKey = Console.ReadLine();
             int key;
@@ -332,16 +332,16 @@ namespace PigLatinTranslate
                     {
                         ascii += 26;
                     }
-                    else if (ascii < 97)
+                    else if (ascii < 97 && ascii > 90)
                     {
                         ascii += 26;
                     }
                     else if (ascii == 32)
                     {
-                        spunChar.Add(' ');
+                        spunChar[i] = ' ';
                     }
 
-                    spunChar.Add((char)ascii);
+                    spunChar[i] = (char)ascii;
                 }
             }
 
